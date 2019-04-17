@@ -1,6 +1,6 @@
 {
   "name": "electron-spellchecker-provider",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Implement spellcheck provider for electron",
   "scripts": {
     "doc": "esdoc -c ./esdoc.json",
@@ -19,7 +19,7 @@
     "spelling",
     "electron"
   ],
-  "author": "Kevin Li",
+  "author": "Paul Betts <paul@paulbetts.org>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/kevinlims/electron-spellchecker-provider/issues"
