@@ -55,10 +55,10 @@ export default class DictionarySync {
     d = fn;
   }
 
- /**
+  /**
    * Overrides the default base URL for loading dictionary
    */
-  static setBaseUrlForDictionary(url) {
+  setBaseUrlForDictionary(url) {
     if (setBaseUrlForHunspellDictionary && url) {
       setBaseUrlForHunspellDictionary(url);
     }
