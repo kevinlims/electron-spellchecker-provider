@@ -13,6 +13,7 @@ import {fs} from './promisify';
 import {normalizeLanguageCode} from './utility';
 
 let getURLForHunspellDictionary;
+let setBaseUrlForHunspellDictionary;
 let d = require('debug')('electron-spellchecker-provider:dictionary-sync');
 
 const app = process.type === 'renderer' ?
@@ -36,7 +37,9 @@ export default class DictionarySync {
    */
   constructor(cacheDir=null) {
     // NB: Require here so that consumers can handle native module exceptions.
-    getURLForHunspellDictionary = require('./node-spellchecker').getURLForHunspellDictionary;
+    var nodeSpellchecker = require('./node-spellchecker');
+    getURLForHunspellDictionary = nodeSpellchecker.getURLForHunspellDictionary;
+    setBaseUrlForHunspellDictionary = nodeSpellchecker.setBaseUrlForHunspellDictionary;
 
     this.cacheDir = cacheDir || path.join(app.getPath('userData'), 'dictionaries');
     mkdirp.sync(this.cacheDir);
@@ -50,6 +53,15 @@ export default class DictionarySync {
    */
   static setLogger(fn) {
     d = fn;
+  }
+
+  /**
+   * Overrides the default base URL for loading dictionary
+   */
+  setBaseUrlForDictionary(url) {
+    if (setBaseUrlForHunspellDictionary && url) {
+      setBaseUrlForHunspellDictionary(url);
+    }
   }
 
   /**
