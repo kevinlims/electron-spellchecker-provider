@@ -27,7 +27,7 @@
   "main": "lib/index.js",
   "homepage": "https://github.com/kevinlims/electron-spellchecker-provider",
   "dependencies": {
-    "@juturu/electron-remote": "1.1.3",
+    "@juturu/electron-remote": "1.1.4",
     "debug": "^2.5.1",
     "keyboard-layout": "^2.0.7",
     "lru-cache": "^4.0.2",
