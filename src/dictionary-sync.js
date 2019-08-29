@@ -20,8 +20,18 @@ const app = process.type === 'renderer' ?
   require('electron').remote.app :
   require('electron').app;
 
-const {downloadFileOrUrl} =
-  require('@juturu/electron-remote').requireTaskPool(require.resolve('@juturu/electron-remote/remote-ajax'));
+let downloader;
+
+function downloadFileOrUrl (url, target) {
+  if (downloader) {
+    return downloader(url, target);
+  }
+
+  const ajax = require.resolve('@juturu/electron-remote/remote-ajax');
+  const {downloadFileOrUrl} = require('@juturu/electron-remote').requireTaskPool(ajax);
+
+  return downloadFileOrUrl(url, target);
+}
 
 /**
  * DictioanrySync handles downloading and saving Hunspell dictionaries. Pass it
@@ -53,6 +63,14 @@ export default class DictionarySync {
    */
   static setLogger(fn) {
     d = fn;
+  }
+
+  /**
+   * Overrides the default electron-remote/remote-ajax downloader
+   * @param {Function} fn
+   */
+  static setDownloader(fn) {
+    downloader = fn
   }
 
   /**
