@@ -1,6 +1,6 @@
 {
   "name": "electron-spellchecker-provider",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Implement spellcheck provider for electron",
   "scripts": {
     "doc": "esdoc -c ./esdoc.json",
