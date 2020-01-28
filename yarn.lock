@@ -3509,13 +3509,13 @@ jstransformer@0.0.2:
     is-promise "^2.0.0"
     promise "^6.0.1"
 
-keyboard-layout@^2.0.7:
-  version "2.0.15"
-  resolved "https://registry.yarnpkg.com/keyboard-layout/-/keyboard-layout-2.0.15.tgz#ca3be873f18107cb481a45f820de73f5696cd5cf"
-  integrity sha512-CLUhV2Cztm+0kbPHplX9vVCCtnoWd3S6lwA5r+rSzGQzzC0Ot2HsuBSu6IV6v5iPpsvr4cgE4uyfSvQNKnx/BA==
+keyboard-layout@^2.0.16:
+  version "2.0.16"
+  resolved "https://registry.yarnpkg.com/keyboard-layout/-/keyboard-layout-2.0.16.tgz#b8c1036222c3c12f00c1e0296a032529c43e530e"
+  integrity sha512-eGrxmlV6jbm/mbPEOpYGuH53XEC7wIUj9ZxKcT2z9QHJ/RwrT9iVkvxka9zRxqHZHwQzcffgsa5OxoVAKnhK9w==
   dependencies:
     event-kit "^2.0.0"
-    nan "^2.10.0"
+    nan "^2.13.2"
 
 keyboardevent-from-electron-accelerator@^1.1.0:
   version "1.1.0"
@@ -3918,10 +3918,15 @@ mute-stream@0.0.5:
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.5.tgz#8fbfabb0a98a253d3184331f9e8deb7372fac6c0"
   integrity sha1-j7+rsKmKJT0xhDMfno3rc3L6xsA=
 
-nan@^2.0.0, nan@^2.10.0, nan@^2.12.1:
+nan@^2.12.1:
   version "2.13.2"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.13.2.tgz#f51dc7ae66ba7d5d55e1e6d4d8092e802c9aefe7"
   integrity sha512-TghvYc72wlMGMVMluVo9WRJc0mB8KxxF/gZ4YYFy7V2ZQX9l7rgbPg7vjS9mt6U5HXODVFVI2bOduCzwOMv/lw==
+
+nan@^2.13.2, nan@^2.14.0:
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.0.tgz#7818f722027b2459a86f0295d434d1fc2336c52c"
+  integrity sha512-INOFj37C7k3AfaNTtX8RhsTw7qRy7eLET14cROi9+5HAVbbHuIWUHEauBv5qT4Av2tWasiTY1Jw6puUNqRJXQg==
 
 nanomatch@^1.2.9:
   version "1.2.13"
@@ -4001,12 +4006,12 @@ node-source-walk@^4.0.0:
   dependencies:
     "@babel/parser" "^7.0.0"
 
-node-spellcheckr@4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/node-spellcheckr/-/node-spellcheckr-4.0.1.tgz#207f38ee3ca0258dde1d84e58753f27833ce8987"
-  integrity sha512-eEPEIdB46DalHxCU3hHHlCpjJhtjhGFA8Haw0F3hnpuPse42Um9hRiJ2f/MYMkea7oo9RzuXiVBc0Syrxc3h4w==
+node-spellcheckr@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/node-spellcheckr/-/node-spellcheckr-4.0.2.tgz#fb1b5a1802e4113adc7a837baf8734ad2f555c4d"
+  integrity sha512-5yJB1QlDAao0YUaFan4/lY/pexxBTCn/aALgVI2FCnBZDMD3Og/hR83YgSZKcN00O98lvEYd7/M6MwhiHj/vaA==
   dependencies:
-    nan "^2.0.0"
+    nan "^2.14.0"
 
 nopt@3.x:
   version "3.0.6"
