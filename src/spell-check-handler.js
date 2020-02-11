@@ -75,8 +75,11 @@ export default class SpellCheckHandler {
    *                                          location.
    * @param  {LocalStorage} localStorage      An implementation of localStorage
    *                                          used for testing.
+   * @param  {boolean} forceDefaultSpellCheck A flag for enforcing the default 
+   *                                          behavior of the spellchecker to  
+   *                                          all OS
    */
-  constructor(dictionarySync=null, localStorage=null) {
+  constructor(dictionarySync=null, localStorage=null, forceDefaultSpellCheck = false) {
     // NB: Require here so that consumers can handle native module exceptions.
     Spellchecker = require('./node-spellchecker').Spellchecker;
 
@@ -89,6 +92,8 @@ export default class SpellCheckHandler {
     });
 
     this.shouldAutoCorrect = true;
+    
+    this.forceDefaultSpellCheck = forceDefaultSpellCheck
 
     // NB: A Cool thing is when window.localStorage is rigged to blow up
     // if you touch it from a data: URI in Chromium.
@@ -98,7 +103,7 @@ export default class SpellCheckHandler {
       this.localStorage = new FakeLocalStorage();
     }
 
-    if (isMac) {
+    if (isMac && !this.forceDefaultSpellCheck) {
       // NB: OS X does automatic language detection, we're gonna trust it
       this.currentSpellchecker = new Spellchecker();
       this.currentSpellcheckerLanguage = 'en-US';
@@ -136,7 +141,7 @@ export default class SpellCheckHandler {
   async switchLanguage(langCode) {
     let actualLang;
     let dict = null;
-    if (isMac) return;
+    if (isMac && !this.forceDefaultSpellCheck) return;
 
     try {
       const {dictionary, language} = await this.loadDictionaryForLanguageWithAlternatives(langCode);
@@ -226,7 +231,7 @@ export default class SpellCheckHandler {
 
       if (!this.currentSpellchecker) return false;
 
-      if (isMac) {
+      if (isMac && !this.forceDefaultSpellCheck) {
         return this.currentSpellchecker.isMisspelled(text);
       }
 
@@ -284,7 +289,7 @@ export default class SpellCheckHandler {
    */
   async addToDictionary(text) {
     // NB: Same deal as getCorrectionsForMisspelling.
-    if (!isMac) return;
+    if (!isMac || this.forceDefaultSpellCheck) return;
     if (!this.currentSpellchecker) return;
 
     this.currentSpellchecker.add(text);
@@ -319,7 +324,7 @@ export default class SpellCheckHandler {
       localeList = getInstalledKeyboardLanguages();
     }
 
-    if (isMac) {
+    if (isMac && !this.forceDefaultSpellCheck) {
       fallbackLocaleTable = fallbackLocaleTable || require('./fallback-locales');
 
       // NB: OS X will return lists that are half just a language, half
