@@ -1,14 +1,9 @@
-import {Observable} from 'rxjs/Observable';
-
-import 'rxjs/add/observable/timer';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/switch';
+import { timer, Observable } from 'rxjs';
+import {map, switchAll} from 'rxjs/operators'
 
 const newCoolOperators = {
   guaranteedThrottle: function (time, scheduler=null) {
-    return this
-      .map((x) => Observable.timer(time, scheduler).map(() => x))
-      .switch();
+    return this.pipe(map((x) => timer(time, scheduler).pipe(map(() => x))), switchAll());
   }
 };
 
