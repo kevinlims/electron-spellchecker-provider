@@ -182,13 +182,20 @@ export default class SpellCheckHandler {
     }
 
     d(`Requesting to load ${langCode}, alternatives are ${JSON.stringify(alternatives)}`);
-    return await concat(of(...alternatives).pipe(concatMap((l) => {
+    return await concat(of(...alternatives).pipe(
+      concatMap((l) => {
         return defer(() =>
-            from(this.dictionarySync.loadDictionaryForLanguage(l, cacheOnly))).pipe(map((d) => ({language: l, dictionary: d})), tap(({language}) => {
+            from(this.dictionarySync.loadDictionaryForLanguage(l, cacheOnly))).pipe(
+          map((d) => ({language: l, dictionary: d})),
+          tap(({language}) => {
             alternatesTable[langCode] = language;
             this.localStorage.setItem(localStorageKey, JSON.stringify(alternatesTable));
-          }), catchError(() => of(null)));
-      })), of({language: langCode, dictionary: null})).pipe(filter((x) => x !== null), take(1))
+          }),
+          catchError(() => of(null)));
+      })),
+      of({language: langCode, dictionary: null})).pipe(
+        filter((x) => x !== null),
+        take(1))
       .toPromise();
   }
 
