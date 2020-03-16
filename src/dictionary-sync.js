@@ -1,13 +1,6 @@
+import {of} from 'rxjs'
 import path from 'path';
 import mkdirp from 'mkdirp';
-
-import {Observable} from 'rxjs/Observable';
-
-import 'rxjs/add/observable/of';
-
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/reduce';
-import 'rxjs/add/operator/toPromise';
 
 import {fs} from './promisify';
 import {normalizeLanguageCode} from './utility';
@@ -146,6 +139,6 @@ export default class DictionarySync {
 
   preloadDictionaries() {
     // NB: This is retained solely to not break earlier versions
-    return Observable.of(true);
+    return of(true);
   }
 }

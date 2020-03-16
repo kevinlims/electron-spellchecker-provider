@@ -1,21 +1,8 @@
+import {of, defer, from, concat} from 'rxjs'
+import {map, tap, catchError, concatMap, filter, take} from 'rxjs/operators'
 import {getInstalledKeyboardLanguages} from 'keyboard-layout';
 import {spawn} from 'spawn-rx';
 import LRU from 'lru-cache';
-
-import {Observable} from 'rxjs/Observable';
-
-import 'rxjs/add/observable/defer';
-import 'rxjs/add/observable/fromPromise';
-import 'rxjs/add/observable/of';
-
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/concat';
-import 'rxjs/add/operator/concatMap';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/reduce';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/toPromise';
 
 import './custom-operators';
 
@@ -195,20 +182,20 @@ export default class SpellCheckHandler {
     }
 
     d(`Requesting to load ${langCode}, alternatives are ${JSON.stringify(alternatives)}`);
-    return await Observable.of(...alternatives)
-      .concatMap((l) => {
-        return Observable.defer(() =>
-            Observable.fromPromise(this.dictionarySync.loadDictionaryForLanguage(l, cacheOnly)))
-          .map((d) => ({language: l, dictionary: d}))
-          .do(({language}) => {
+    return await concat(of(...alternatives).pipe(
+      concatMap((l) => {
+        return defer(() =>
+            from(this.dictionarySync.loadDictionaryForLanguage(l, cacheOnly))).pipe(
+          map((d) => ({language: l, dictionary: d})),
+          tap(({language}) => {
             alternatesTable[langCode] = language;
             this.localStorage.setItem(localStorageKey, JSON.stringify(alternatesTable));
-          })
-          .catch(() => Observable.of(null));
-      })
-      .concat(Observable.of({language: langCode, dictionary: null}))
-      .filter((x) => x !== null)
-      .take(1)
+          }),
+          catchError(() => of(null)));
+      })),
+      of({language: langCode, dictionary: null})).pipe(
+        filter((x) => x !== null),
+        take(1))
       .toPromise();
   }
 
@@ -305,7 +292,7 @@ export default class SpellCheckHandler {
 
     if (process.platform === 'linux') {
       let locales = await spawn('locale', ['-a'])
-        .catch(() => Observable.of(null))
+        .catch(() => of(null))
         .reduce((acc,x) => { acc.push(...x.split('\n')); return acc; }, [])
         .toPromise();
 

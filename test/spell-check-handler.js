@@ -1,3 +1,4 @@
+import {take} from 'rxjs/operators'
 import './support';
 
 import path from 'path';
@@ -122,7 +123,7 @@ describe('The Spell Check Handler Class', function() {
       expect(this.fixture.currentSpellcheckerLanguage).not.to.be.ok;
 
       scheduler.advanceTo(10 *1000);
-      await this.fixture.currentSpellcheckerChanged.take(1).toPromise();
+      await this.fixture.currentSpellcheckerChanged.pipe(take(1)).toPromise();
 
       expect(this.fixture.currentSpellcheckerLanguage).to.equal('en-US');
     });
@@ -144,7 +145,7 @@ describe('The Spell Check Handler Class', function() {
 
       d('Advancing to +10s');
       scheduler.advanceTo(10*1000);
-      await this.fixture.currentSpellcheckerChanged.take(1).toPromise();
+      await this.fixture.currentSpellcheckerChanged.pipe(take(1)).toPromise();
       expect(this.fixture.currentSpellcheckerLanguage).to.equal('en-US');
 
       d('Advancing to +20s');
@@ -159,7 +160,7 @@ describe('The Spell Check Handler Class', function() {
 
       d('Advancing to +60s');
       scheduler.advanceTo(60*1000);
-      await this.fixture.currentSpellcheckerChanged.take(1).toPromise();
+      await this.fixture.currentSpellcheckerChanged.pipe(take(1)).toPromise();
       expect(this.fixture.currentSpellcheckerLanguage.substring(0,2)).to.equal('de');
     });
   });
